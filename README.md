@@ -1,1 +1,1 @@
-# HapticTester
+This is a test app with Google Vibrator APIs (https://developer.android.google.cn/reference/android/os/Vibrator)

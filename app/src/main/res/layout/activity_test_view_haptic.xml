@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".TestViewHapticActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/isHapticFeedbackEnabled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center"
+            android:textColor="#0000EE"
+            tools:text="isHapticFeedback enabled"/>
+        <ToggleButton
+            android:id="@+id/toggleHaptic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_marginEnd="10dp"
+            android:textOn="Enabled"
+            android:textOff="Disabled"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="android.view.HapticFeedbackConstants:" />
+    <ListView
+        android:id="@+id/actionListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tooltipText="android.view.HapticFeedbackConstants"/>
+
+</LinearLayout>
