@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, TestViewHapticActivity::class.java)
             startActivity(intent)
         }
+        binding.btnTestVibratorMgr.setOnClickListener {
+            startActivity(Intent(this, TestVibratorMgrActivity::class.java))
+        }
 
         // Test Vibrator APIs
         // https://developer.android.google.cn/reference/android/os/Vibrator

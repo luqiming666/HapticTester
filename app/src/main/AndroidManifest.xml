@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.haptictester">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -12,6 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HapticTester">
+        <activity
+            android:name=".TestVibratorMgrActivity"
+            android:exported="false" />
         <activity
             android:name=".TestViewHapticActivity"
             android:exported="false" />
@@ -25,5 +26,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>
