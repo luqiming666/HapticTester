@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textAllCaps="false"
-            android:text="Vibrator Mgr"/>
+            android:text="More Tests"/>
     </LinearLayout>
 
     <TextView

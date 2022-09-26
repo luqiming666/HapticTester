@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.view.InputDevice
 import androidx.appcompat.app.AppCompatActivity
 import com.example.haptictester.databinding.ActivityTestVibratorMgrBinding
 
@@ -30,7 +31,7 @@ class TestVibratorMgrActivity : AppCompatActivity() {
 
             val vibIds = vibratorMgr.vibratorIds
             info.append("Vibrator count: ${vibIds.size}")
-            for (e in vibratorMgr.vibratorIds) {
+            for (e in vibIds) {
                 val vib = vibratorMgr.getVibrator(e)
                 info.append("\nID: $e -- hasVibrator: ${vib.hasVibrator()}, its ID: ${vib.id}")
             }
@@ -40,5 +41,17 @@ class TestVibratorMgrActivity : AppCompatActivity() {
             vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
         binding.vibInfoGeneral.text = info.toString()
+
+        binding.btnEnumerate.setOnClickListener {
+            info.setLength(0)
+            val devIds = InputDevice.getDeviceIds()
+            info.append("Device count: ${devIds.size}")
+            for (e in devIds) {
+                val dev = InputDevice.getDevice(e)
+                info.append("\n${dev.toString()}")
+                //info.append("\nID: $e, hasVibrator: ${dev.vibrator.hasVibrator()}")
+            }
+            binding.inputDeviceInfo.text = info.toString()
+        }
     }
 }

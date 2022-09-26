@@ -8,9 +8,42 @@
     tools:context=".TestVibratorMgrActivity">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="--- Vibrator Manager ---"
+        android:textStyle="bold"
+        android:textAllCaps="false" />
+    <TextView
         android:id="@+id/vibInfoGeneral"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:textAllCaps="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="--- Input Devices ---"
+        android:textStyle="bold"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btnEnumerate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textAllCaps="false"
+        android:text="Get all input devices"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/inputDeviceInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAllCaps="false" />
+    </ScrollView>
 </LinearLayout>
