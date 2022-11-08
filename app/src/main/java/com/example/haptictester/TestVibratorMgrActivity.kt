@@ -1,6 +1,7 @@
 package com.example.haptictester
 
 import android.hardware.input.InputManager
+import android.media.audiofx.HapticGenerator
 import android.os.*
 import android.util.Log
 import android.view.InputDevice
@@ -91,6 +92,17 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Android 8.0
                 val effect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
                 vibrator?.vibrate(effect)
+            }
+        }
+
+        binding.btnHapticGen.setOnClickListener {
+            // https://developer.android.google.cn/reference/kotlin/android/media/audiofx/HapticGenerator
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12
+                val avail = HapticGenerator.isAvailable()
+                Log.i(TAG, "HapticGenerator.isAvailable $avail")
+
+                val generator = HapticGenerator.create(0) // MediaPlayer.getAudioSessionId()
+                generator.enabled = true
             }
         }
     }
