@@ -18,7 +18,9 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
 
     private val TAG = "InputDeviceTest"
     private lateinit var binding: ActivityTestVibratorMgrBinding
+
     private var vibrator: Vibrator? = null
+    private var vibratorSecond: Vibrator? = null
     private var _vibratorMgr: VibratorManager? = null
     private val vibratorMgr: VibratorManager get() = _vibratorMgr!!
 
@@ -33,6 +35,7 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
         inputMgr.registerInputDeviceListener(this, null)
 
         val info = StringBuilder()
+        // VibratorManager可以管理“当前输入设备”的多个马达
         // 通过VibratorManager无法获取外接的Game Controller!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12
             _vibratorMgr = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
@@ -57,6 +60,8 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
         // and should not change even if the input device is disconnected, reconnected or reconfigured at any time.
         binding.btnEnumerate.setOnClickListener {
             info.setLength(0)
+            vibrator = null
+            vibratorSecond = null
             // 方法一：通过InputDevice的静态方法来枚举
             /*val devIds = InputDevice.getDeviceIds()
             info.append("Device count: ${devIds.size}")
@@ -70,18 +75,36 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
                 }
             }*/
 
-            // 方法二：通过InputManager来枚举
+            // 方法二：通过InputManager来枚举“所有的”输入设备
             val devIds = inputMgr.inputDeviceIds
             info.append("Device count: ${devIds.size}")
             for (e in devIds) {
                 val dev = inputMgr.getInputDevice(e)
                 info.append("\n${dev.toString()}")
-                if (dev.vibrator.hasVibrator()) {
-                    vibrator = dev.vibrator
-                    info.append("\n@@@ A vibrator detected @@@")
-                    val srcType = dev.sources and SOURCE_GAMEPAD
-                    if (srcType == SOURCE_GAMEPAD) {
-                        info.append("\n@@@ This is a Gamepad. Controller num: ${dev.controllerNumber}")
+                val srcType = dev.sources and SOURCE_GAMEPAD
+                if (srcType == SOURCE_GAMEPAD) {
+                    info.append("@@@The device above is a Gamepad. Controller num: ${dev.controllerNumber}\n")
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12
+                    val vibIds = dev.vibratorManager.vibratorIds
+                    if (vibIds.isNotEmpty()) {
+                        info.append("\nInput Device of ID $e has ${vibIds.size} vibrator(s)")
+                        for (d in vibIds) {
+                            val vib = dev.vibratorManager.getVibrator(d)
+                            info.append("\nVibrator ID: $d -- hasVibrator: ${vib.hasVibrator()}, its ID: ${vib.id}")
+                            if (vibrator != null) { // saved for later use. 最多保存两个马达
+                                vibratorSecond = vib
+                            } else {
+                                vibrator = vib
+                            }
+                        }
+                    }
+                } else {
+                    // 这里不能支持单个输入设备包含多马达的情况
+                    if (dev.vibrator.hasVibrator()) {
+                        vibrator = dev.vibrator // saved for later use
+                        info.append("\n@@@ A vibrator detected @@@")
                     }
                 }
             }
@@ -90,8 +113,13 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
 
         binding.btnVibrate.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Android 8.0
-                val effect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
-                vibrator?.vibrate(effect)
+                val effect1 = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
+                vibrator?.vibrate(effect1)
+                vibratorSecond?.let {
+                    Thread.sleep(2000)
+                    val effect2 = VibrationEffect.createOneShot(1000, 255)
+                    it.vibrate(effect2)
+                }
             }
         }
 

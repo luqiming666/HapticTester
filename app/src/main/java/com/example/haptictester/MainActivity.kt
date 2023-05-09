@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         val newArray = effectList.map { it.name }
         binding.spinnerEffects.adapter =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, newArray)
-        // NOTE: spinner设置监听器不能向listview或其他的组件一样直接使用lambda简化！
+        // NOTE: spinner设置监听器不能像listview或其他的组件一样直接使用lambda简化！
         binding.spinnerEffects.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 view?.performHapticFeedback(CONTEXT_CLICK) // test the built-in haptic feedback
