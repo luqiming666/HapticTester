@@ -19,6 +19,7 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
     private val TAG = "InputDeviceTest"
     private lateinit var binding: ActivityTestVibratorMgrBinding
 
+    private var vibratorDefault: Vibrator? = null
     private var vibrator: Vibrator? = null
     private var vibratorSecond: Vibrator? = null
     private var _vibratorMgr: VibratorManager? = null
@@ -39,7 +40,7 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
         // 通过VibratorManager无法获取外接的Game Controller!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12
             _vibratorMgr = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibrator = vibratorMgr.defaultVibrator
+            vibratorDefault = vibratorMgr.defaultVibrator
 
             val vibIds = vibratorMgr.vibratorIds
             info.append("Vibrator count: ${vibIds.size}")
@@ -53,6 +54,16 @@ class TestVibratorMgrActivity : AppCompatActivity(), InputManager.InputDeviceLis
             vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
         binding.vibInfoGeneral.text = info.toString()
+
+        binding.btnVibrateDefault.setOnClickListener {
+            // By default it vibrates on the phone
+            val effect = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
+            } else {
+                TODO("VERSION.SDK_INT < O")
+            }
+            vibratorDefault?.vibrate(effect)
+        }
 
         // 测试输入设备 InputDevice
         // fun getDescriptor(): String!

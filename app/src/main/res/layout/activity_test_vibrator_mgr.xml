@@ -20,6 +20,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btnVibrateDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textAllCaps="false"
+        android:text="Test Default Vibrator"/>
 
     <TextView
         android:layout_width="wrap_content"
